@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../redux/authSlice';
 import { useDispatch } from 'react-redux';
+import api from '../config/axiosInstance';
 
 function LoginPage() {
     const [formData, setFormData] = useState({ username: '', password: '' });
@@ -15,18 +15,19 @@ function LoginPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://localhost:5000/api/auth/login', formData);
+            console.log("first ")
+            const res = await api.post('/public/login', formData);
 
-            localStorage.setItem('token', res.data.token);
+            localStorage.setItem('accessToken', res.data.accessToken);
 
             dispatch(loginUser({
                 user: { username: res.data.username },
-                token: res.data.token,
+                // token: res.data.accessToken,
 
             }));
 
             alert('Login successful');
-            navigate('/home');
+            navigate('/');
         } catch (err) {
             alert(err.response?.data?.message || 'Login failed');
         }

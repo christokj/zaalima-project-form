@@ -38,11 +38,11 @@ function SignupPage() {
             newErrors.mobile = "Mobile must be 10 digits";
         }
 
-        if (!formData.password) {
-            newErrors.password = "Password is required";
-        } else if (!/^(?=.*[A-Za-z])(?=.*\d).{6,}$/.test(formData.password)) {
-            newErrors.password = "Min 6 chars, must include letter & number";
-        }
+        // if (!formData.password) {
+        //     newErrors.password = "Password is required";
+        // } else if (!/^(?=.*[A-Za-z])(?=.*\d).{6,}$/.test(formData.password)) {
+        //     newErrors.password = "Min 6 chars, must include letter & number";
+        // }
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -57,7 +57,7 @@ function SignupPage() {
         if (!validate()) return;
 
         try {
-            const res = await axios.post('http://localhost:5000/api/auth/signup', formData);
+            const res = await axios.post('http://localhost:3000/api/v1/public/signup', formData);
             alert(res.data.message);
             navigate('/login-page');
         } catch (err) {

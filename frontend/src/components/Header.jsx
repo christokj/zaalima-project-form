@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logoutUser } from '../redux/authSlice';
+import api from '../config/axiosInstance';
 
 function Header() {
     const user = useSelector((state) => state.auth.user?.username);
@@ -10,11 +11,11 @@ function Header() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
+        await api.post('/public/logout');
         dispatch(logoutUser());
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        navigate('/login-page');
+        localStorage.removeItem('accessToken');
+        navigate('/');
     };
 
     return (
